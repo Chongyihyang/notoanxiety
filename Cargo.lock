@@ -3,26 +3,6 @@
 version = 3
 
 [[package]]
-name = "Eclipse_actix_web"
-version = "0.1.0"
-dependencies = [
- "actix-files",
- "actix-session",
- "actix-web",
- "chrono",
- "dotenv",
- "jsonwebtoken",
- "lazy_static",
- "minijinja",
- "serde",
- "sha256",
- "shuttle-actix-web",
- "shuttle-runtime",
- "sqlite",
- "tokio",
-]
-
-[[package]]
 name = "actix"
 version = "0.13.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1370,6 +1350,26 @@ dependencies = [
  "log",
  "wasi",
  "windows-sys 0.48.0",
+]
+
+[[package]]
+name = "notoanxiety"
+version = "0.1.0"
+dependencies = [
+ "actix-files",
+ "actix-session",
+ "actix-web",
+ "chrono",
+ "dotenv",
+ "jsonwebtoken",
+ "lazy_static",
+ "minijinja",
+ "serde",
+ "sha256",
+ "shuttle-actix-web",
+ "shuttle-runtime",
+ "sqlite",
+ "tokio",
 ]
 
 [[package]]
