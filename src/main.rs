@@ -10,12 +10,13 @@ mod constants;
 
 use actix_files::Files;
 use actix_session::{SessionMiddleware, storage::CookieSessionStore};
-use actix_web::{HttpServer, App};
+use actix_web::{HttpServer, App, web::ServiceConfig};
 use auth::{login, login_path, logout_path, logout_to_login};
 use create::{create_path, create_post};
 use index::index_path;
 use actix_web::cookie::Key;
 use show::show_path;
+use shuttle_actix_web::ShuttleActixWeb;
 
 fn session_middleware() -> SessionMiddleware<CookieSessionStore> {
     SessionMiddleware::builder(
@@ -25,25 +26,20 @@ fn session_middleware() -> SessionMiddleware<CookieSessionStore> {
 }
 
 
-#[tokio::main]
-async fn main() {
-    let app = || {
-        App::new()
-        .wrap(session_middleware())
-        .service(login_path)
-        .service(login)
-        .service(index_path)
-        .service(Files::new("/static", "./static"))
-        .service(create_path)
-        .service(create_post)
-        .service(logout_path)
-        .service(logout_to_login)
-        .service(show_path)
+#[shuttle_runtime::main]
+async fn main() -> ShuttleActixWeb<impl FnOnce(&mut ServiceConfig) + Send + Clone + 'static>{
+    let config = move |cfg: &mut ServiceConfig| {
+        // set up your service here, e.g.:
+        cfg.service(login_path);
+        cfg.service(login);
+        cfg.service(index_path);
+        cfg.service(Files::new("/static", "./static"));
+        cfg.service(create_path);
+        cfg.service(create_post);
+        cfg.service(logout_path);
+        cfg.service(logout_to_login);
+        cfg.service(show_path);
     };
 
-    let _ = HttpServer::new(app)
-    .bind(("127.0.0.1", 5000))
-    .unwrap()
-    .run()
-    .await;
+    Ok(config.into())
 }
