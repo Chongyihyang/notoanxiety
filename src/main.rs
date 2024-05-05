@@ -7,23 +7,16 @@ mod model;
 mod auth;
 mod jwt;
 mod constants;
+mod delete;
 
 use actix_files::Files;
-use actix_session::{SessionMiddleware, storage::CookieSessionStore};
-use actix_web::{HttpServer, App, web::ServiceConfig};
-use auth::{login, login_path, logout_path, logout_to_login};
+use actix_web::web::ServiceConfig;
+use auth::{login, login_path, logout_path};
 use create::{create_path, create_post};
+use delete::delete_path;
 use index::index_path;
-use actix_web::cookie::Key;
 use show::show_path;
 use shuttle_actix_web::ShuttleActixWeb;
-
-fn session_middleware() -> SessionMiddleware<CookieSessionStore> {
-    SessionMiddleware::builder(
-	    CookieSessionStore::default(), Key::from(&[0; 64])
-    )
-	.build()
-}
 
 
 #[shuttle_runtime::main]
@@ -37,8 +30,8 @@ async fn main() -> ShuttleActixWeb<impl FnOnce(&mut ServiceConfig) + Send + Clon
         cfg.service(create_path);
         cfg.service(create_post);
         cfg.service(logout_path);
-        cfg.service(logout_to_login);
         cfg.service(show_path);
+        cfg.service(delete_path);
     };
 
     Ok(config.into())

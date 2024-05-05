@@ -23,5 +23,5 @@ pub async fn show_path(post_number : Path<usize>, msg: HttpRequest) -> Either<Ht
             row.read::<&str, _>("description").to_owned(),
         ))
     }
-    Either::Left(render_template!("templates/show.html", item => order_posts[0]))
+    Either::Left(render_template!("templates/show.html", item => order_posts[0], id => post_number))
 }

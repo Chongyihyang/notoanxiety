@@ -22,5 +22,6 @@ pub async fn index_path(msg: HttpRequest)  -> Either<HttpResponse, Redirect> {
             row.read::<&str, _>("description").to_owned(),
         )))
     }
+    order_posts.reverse();
     Either::Left(render_template!("templates/index.html", posts => order_posts))
 }

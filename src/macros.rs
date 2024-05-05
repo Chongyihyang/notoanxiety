@@ -40,3 +40,11 @@ macro_rules! f_string {
         format!($($tokens)*)
     };
 }
+
+use actix_web::cookie::{Cookie, SameSite};
+pub fn build_cookie<'a>(name: & 'a str, value: String) -> Cookie<'a> {
+    Cookie::build(name, value)
+    .http_only(true)
+    .same_site(SameSite::None)
+    .finish()
+}

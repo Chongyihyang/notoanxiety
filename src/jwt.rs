@@ -16,7 +16,7 @@ pub struct Claims{
 pub fn encode_jwt(username: String) -> Result<String,StatusCode>{
 
     let now = Utc::now();
-    let expire = Duration::seconds(20);
+    let expire = Duration::minutes(20);
 
     let claim = Claims{ iat: now.timestamp() as usize, exp: (now+expire).timestamp() as usize, username: username };
     let secret = (*constants::TOKEN).clone();

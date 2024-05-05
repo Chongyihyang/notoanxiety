@@ -10,7 +10,7 @@ pub async fn create_path(msg: HttpRequest) -> Either<HttpResponse, Redirect>{
     }
     let x = msg.cookie("token").unwrap();
     if let Err(_) = decode_jwt(x.value().to_owned()) {
-        return Either::Left(HttpResponse::Unauthorized().finish())
+        return Either::Right(Redirect::to("/login"))
     }
     Either::Left(render_template!("templates/create.html"))
 }
